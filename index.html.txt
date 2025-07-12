@@ -3,13 +3,53 @@
   <head>
     <title>Telegram Mini App</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 20px;
+        background-color: var(--tg-theme-bg-color);
+        color: var(--tg-theme-text-color);
+      }
+      h2 {
+        margin-bottom: 10px;
+      }
+      input, button {
+        padding: 12px;
+        margin-top: 10px;
+        width: 100%;
+        font-size: 16px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+      }
+      button {
+        background-color: #0088cc;
+        color: white;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #0077b3;
+      }
+    </style>
   </head>
   <body>
     <h2>Hello from Telegram Mini App</h2>
+    <p>Enter your name below:</p>
+    <input id="userInput" type="text" placeholder="Your name..." />
+    <button onclick="sendData()">Submit</button>
+
     <script>
       const tg = window.Telegram.WebApp;
       tg.expand();
-      document.body.innerHTML += `<p>Welcome, ${tg.initDataUnsafe?.user?.first_name || 'Guest'}!</p>`;
+
+      function sendData() {
+        const value = document.getElementById("userInput").value;
+        if (!value.trim()) {
+          alert("Please enter your name.");
+          return;
+        }
+        tg.sendData(value); // Send data to bot
+        tg.close(); // Close the WebView (optional)
+      }
     </script>
   </body>
 </html>
